@@ -71,8 +71,11 @@ class AutorController(val autorRepository: AutorRepository) {
         if(autorParaExcluir.isEmpty){
             return HttpResponse.notFound()
         }
-        val autor = autorParaExcluir.get()
-        autorRepository.delete(autor)
+
+//        val autor = autorParaExcluir.get()
+//        autorRepository.delete(autor)
+
+        autorRepository.deleteById(id)
         return HttpResponse.ok()
     }
 
