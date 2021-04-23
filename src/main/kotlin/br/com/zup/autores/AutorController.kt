@@ -12,6 +12,7 @@ import javax.validation.Valid
 class AutorController(val autorRepository: AutorRepository) {
 
     @Post
+    @Transactional
     fun cadastra(@Body @Valid request: NovoAutorRequest){
 
         println("Requisição: $request")
@@ -47,6 +48,7 @@ class AutorController(val autorRepository: AutorRepository) {
     }
 
     @Put("/{id}")
+    @Transactional
     fun atualiza(@PathVariable id: Long, nome: String): HttpResponse<Any>{
         val possivelAutor: Optional<Autor> = autorRepository.findById(id)
         if(possivelAutor.isEmpty){
@@ -54,7 +56,7 @@ class AutorController(val autorRepository: AutorRepository) {
         }
         val autor = possivelAutor.get()
         autor.nome = nome
-        autorRepository.update(autor)
+//        autorRepository.update(autor)
 
         return HttpResponse.ok(DetalhesDoAutorResponse(
             autor.nome,
@@ -64,6 +66,7 @@ class AutorController(val autorRepository: AutorRepository) {
     }
 
     @Delete("/{id}")
+    @Transactional
     fun excluiAutor(@PathVariable id:Long):HttpResponse<Any>{
 
         val autorParaExcluir = autorRepository.findById(id)
