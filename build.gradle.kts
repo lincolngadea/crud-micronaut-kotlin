@@ -42,9 +42,13 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari:3.4.0")
     implementation("org.postgresql:postgresql:42.2.19")
+
+    implementation("io.micronaut.xml:micronaut-jackson-xml")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.h2database:h2")
+
+
 }
 
 
