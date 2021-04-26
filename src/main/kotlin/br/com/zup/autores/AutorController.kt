@@ -2,6 +2,7 @@ package br.com.zup.autores
 
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
+import io.micronaut.http.uri.UriBuilder
 import io.micronaut.validation.Validated
 import java.util.*
 import javax.transaction.Transactional
@@ -16,14 +17,19 @@ class AutorController(
 
     @Post
     @Transactional
-    fun cadastra(@Body @Valid request: NovoAutorRequest){
+    fun cadastra(@Body @Valid request: NovoAutorRequest): HttpResponse<Any>{
         println("Requisição: $request")
 
         val enderecoResponse: HttpResponse<EnderecoResponse> = enderecoClient.consulta(request.cep)
 
         val autor = request.paraAutor(enderecoResponse.body()!!)
-        autorRepository.save(autor)
+        val salvo = autorRepository.save(autor)
         println("Autor: ${autor.nome}")
+
+        val uri = UriBuilder.of("/autores/{id}")
+            .expand(mutableMapOf(Pair("id", salvo.id)))
+
+        return HttpResponse.created(uri)
     }
 
     @Get
